@@ -1,4 +1,5 @@
 #include "model-data.h"
+#include <algorithm>
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -17,10 +18,22 @@ namespace sterling {
   //
   Triangle::Triangle() {
     auto vertices = std::vector<Vertex>();
+    z_memo = std::unique_ptr<double>();
   }
 
   bool Triangle::full() {
     return vertices.size() == 3;
+  }
+
+  double Triangle::max_z() {
+    if (!z_memo) {
+      z_memo.reset(new double(std::max({
+                (*vertices[0])[2],
+                (*vertices[1])[2],
+                (*vertices[2])[2]
+                })));
+    }
+    return *z_memo;
   }
 
   void Triangle::add_vertex(Vertex v) {
@@ -34,7 +47,7 @@ namespace sterling {
       std::cout << "tri( incomplete )\n";
     }
     else {
-      std::cout << "tri:\n";
+      std::cout << "tri: (max " << max_z() << ")\n";
       for (auto vert : vertices) {
         std::cout << " - "
                   << (*vert)[0] << ", "

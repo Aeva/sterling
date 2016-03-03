@@ -17,6 +17,8 @@ namespace sterling {
     void add_vertex(Vertex);
     double max_z();
     std::vector<Vertex> vertices;
+  private:
+    std::shared_ptr<double> z_memo;
   };
 
   using Model = std::deque<Triangle>;
