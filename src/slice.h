@@ -4,4 +4,5 @@
 
 namespace sterling {
   void sort_model(Model&);
+  Slice find_intersection(Model&, double);
 };
